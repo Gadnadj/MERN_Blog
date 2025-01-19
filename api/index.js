@@ -12,5 +12,6 @@ app.listen(4000, () => {
     console.log('listening on port 4000')
 });
 
-//C97Gnyt9cadMxPvE
-//gadnadjar
+app.get('/test', (req, res) => {
+    res.json({message: 'API is working!'})
+})
