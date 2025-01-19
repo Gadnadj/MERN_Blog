@@ -14,8 +14,9 @@ app.listen(4000, () => {
 });
 
 app.get('/test', (req, res) => {
-    res.json({message: 'API is working!'})
+    res.json({ message: 'API is working!' })
 })
 
 //middlewares
+app.use(express.json())
 app.use('/api/auth', authRoutes)
