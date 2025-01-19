@@ -1,27 +1,33 @@
 import { Button, Label, TextInput } from 'flowbite-react';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FormData } from '../types';
 
 type Props = {}
 
 const SignUp = (props: Props) => {
-    const [formData, setFormData] = useState<Object>({});
-    const [username, setUsername] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+
+
+    const [formData, setFormData] = useState<FormData>({ username: '', email: '', password: '' });
+    const [errorMessage, setErrorMessage] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.target.id]: e.target.value });
+        setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (!formData.username || !formData.email || !formData.password) {
+
+        }
         try {
             const res = await fetch('/api/auth/signup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
             });
+            const data = await res.json();
         } catch (error) {
 
         }
@@ -50,7 +56,6 @@ const SignUp = (props: Props) => {
                                 type='text'
                                 placeholder='Username'
                                 id='username'
-                                value={username}
                                 onChange={handleChange}
                             />
                         </div>
@@ -60,7 +65,6 @@ const SignUp = (props: Props) => {
                                 type='email'
                                 placeholder='email@gmail.com'
                                 id='email'
-                                value={email}
                                 onChange={handleChange}
                             />
                         </div>
@@ -70,7 +74,6 @@ const SignUp = (props: Props) => {
                                 type='password'
                                 placeholder='Password'
                                 id='password'
-                                value={password}
                                 onChange={handleChange}
                             />
                         </div>
