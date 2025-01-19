@@ -10,13 +10,20 @@ mongoose.connect(process.env.MONGODB_URL)
 const app = express();
 
 app.listen(4000, () => {
-    console.log('listening on port 4000')
+    console.log('listening on port 4000');
 });
 
 app.get('/test', (req, res) => {
-    res.json({ message: 'API is working!' })
+    res.json({ message: 'API is working!' });
 })
 
 //middlewares
-app.use(express.json())
-app.use('/api/auth', authRoutes)
+app.use(express.json());
+
+app.use('/api/auth', authRoutes);
+
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || 'Internal Sever Error';
+    res.status(statusCode).json({ success: false, statusCode, message });
+});
