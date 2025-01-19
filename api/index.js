@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import authRoutes from './routes/auth.route.js'
 dotenv.config();
 
 mongoose.connect(process.env.MONGODB_URL)
@@ -15,3 +16,6 @@ app.listen(4000, () => {
 app.get('/test', (req, res) => {
     res.json({message: 'API is working!'})
 })
+
+//middlewares
+app.use('/api/auth', authRoutes)
