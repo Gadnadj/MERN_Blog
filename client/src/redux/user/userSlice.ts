@@ -1,6 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { User } from '../../types';
 
-const initialState = {
+export interface userState {
+    currentUser: User | null;
+    error: string | null;
+    loading: boolean;
+}
+
+const initialState: userState = {
     currentUser: null,
     error: null,
     loading: false
