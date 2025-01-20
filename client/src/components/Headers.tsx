@@ -2,15 +2,16 @@ import { Avatar, Button, Dropdown, DropdownDivider, Navbar, TextInput } from 'fl
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FaMoon } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/store';
 import { User } from '../types';
+import { toggleTheme } from '../redux/theme/themeSlice';
 
 
 
 type Props = {}
 const Headers = (props: Props) => {
-
+    const dispatch = useDispatch();
     const path = useLocation().pathname;
     const currentUser = useSelector<RootState, User | null>(state => state.user.currentUser);
     console.log(currentUser);
@@ -36,7 +37,12 @@ const Headers = (props: Props) => {
             </Button>
 
             <div className='flex items-center gap-2 md:order-2'>
-                <Button className='w-12 h-10 hidden lg:inline' color='gray' pill>
+                <Button
+                    className='w-12 h-10 hidden lg:inline'
+                    color='gray'
+                    pill
+                    onClick={() => dispatch(toggleTheme())}
+                >
                     <FaMoon />
                 </Button>
 

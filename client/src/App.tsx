@@ -7,6 +7,7 @@ import Projects from './pages/Projects';
 import Dashboard from './pages/Dashboard';
 import Headers from './components/Headers';
 import Footer from './components/Footer';
+import ThemeProvider from './components/ThemeProvider';
 
 function App() {
 
