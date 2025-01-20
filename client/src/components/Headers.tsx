@@ -1,6 +1,6 @@
 import { Avatar, Button, Dropdown, DropdownDivider, Navbar, TextInput } from 'flowbite-react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { FaMoon } from 'react-icons/fa';
+import { FaMoon, FaSun } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/store';
@@ -9,12 +9,13 @@ import { toggleTheme } from '../redux/theme/themeSlice';
 
 
 
+
 type Props = {}
 const Headers = (props: Props) => {
     const dispatch = useDispatch();
     const path = useLocation().pathname;
     const currentUser = useSelector<RootState, User | null>(state => state.user.currentUser);
-    console.log(currentUser);
+    const { theme }: any = useSelector<RootState>(state => state.theme);
 
     return (
         <Navbar className='border-b-2'>
@@ -43,7 +44,10 @@ const Headers = (props: Props) => {
                     pill
                     onClick={() => dispatch(toggleTheme())}
                 >
-                    <FaMoon />
+                    {
+                        theme === 'light' ? <FaSun /> : <FaMoon />
+                    }
+
                 </Button>
 
                 {currentUser ? (
@@ -87,19 +91,19 @@ const Headers = (props: Props) => {
 
             <Navbar.Collapse>
                 <Navbar.Link active={path === '/'} as={'div'}>
-                    <Link to={'/'}>
+                    <Link to={'/'} className={path === '/' ? 'text-purple-500' : 'text-gray-400'}>
                         Home
                     </Link>
                 </Navbar.Link>
 
                 <Navbar.Link active={path === '/about'} as={'div'}>
-                    <Link to={'/about'}>
+                    <Link to={'/about'} className={path === '/about' ? 'text-purple-500' : 'text-gray-400'}>
                         About
                     </Link>
                 </Navbar.Link>
 
                 <Navbar.Link active={path === '/projects'} as={'div'}>
-                    <Link to={'/projects'}>
+                    <Link to={'/projects'} className={path === '/projects' ? 'text-purple-500' : 'text-gray-400'}>
                         Projects
                     </Link>
                 </Navbar.Link>
