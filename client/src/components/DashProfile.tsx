@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/store';
 import { FormData, User } from '../types';
-import { Button, TextInput } from 'flowbite-react';
+import { Alert, Button, TextInput } from 'flowbite-react';
 import { useState } from 'react';
 import { updateFailure, updateStart, updateSuccess } from '../redux/user/userSlice';
 
@@ -10,6 +10,8 @@ type Props = {}
 const DashProfile = (props: Props) => {
     const currentUser = useSelector<RootState, User | null>((state) => state.user.currentUser);
     const [formData, setFormData] = useState<FormData>({ username: '', email: '', password: '' });
+    const [updateUserSuccess, setUpdateUserSuccess] = useState<string | null>(null);
+    const [updateUserError, setUpdateUserError] = useState<string | null>(null);
     const dispatch = useDispatch();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,7 +20,8 @@ const DashProfile = (props: Props) => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (Object.keys(formData).length === 0) {
+        if (Object.values(formData).every(value => value.trim() === '')) {
+            setUpdateUserError('No changes made');
             return;
         }
         try {
@@ -33,12 +36,20 @@ const DashProfile = (props: Props) => {
             const data = await res.json();
             if (data.error) {
                 dispatch(updateFailure(data.message));
+                setUpdateUserError(data.message);
             }
             else {
                 dispatch(updateSuccess(data));
+                setUpdateUserError('');
+                setUpdateUserSuccess('User profile updated succcessfully');
             }
         } catch (error) {
             dispatch(updateFailure(error));
+            if (error instanceof Error) {
+                setUpdateUserError(error.message);
+            } else {
+                setUpdateUserError('An unknown error occurred');
+            }
         }
     };
 
@@ -64,6 +75,17 @@ const DashProfile = (props: Props) => {
                 <span className='cursor-pointer'>Delete Account</span>
                 <span className='cursor-pointer'>Logout</span>
             </div>
+            {updateUserSuccess && (
+                <Alert color='success' className='mt-5'>
+                    {updateUserSuccess}
+                </Alert>
+            )}
+
+            {updateUserError && (
+                <Alert color='failure' className='mt-5'>
+                    {updateUserError}
+                </Alert>
+            )}
         </div>
     );
 };
