@@ -7,15 +7,14 @@ type Props = {
 };
 
 const ThemeProvider: React.FC<Props> = ({ children }) => {
-  const theme = useSelector((state: RootState) => state.theme.theme); // Accédez directement au theme
+  const theme = useSelector((state: RootState) => state.theme.theme);
 
-  // Appliquez le thème à l'élément body
   React.useEffect(() => {
-    document.body.className = theme; // Change la classe du body selon le thème sélectionné
+    document.body.className = theme;
   }, [theme]);
 
   return (
-    <div className="bg-white text-gray-700 dark:text-gray-200 dark:bg-dark-bg min-h-screen">
+    <div className="bg-white text-gray-700 dark:text-gray-200 dark:bg-dark-bg">
       {children}
     </div>
   );
