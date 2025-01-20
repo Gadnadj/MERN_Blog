@@ -34,6 +34,7 @@ const SignIn = (props: Props) => {
             });
             const data = await res.json();
             if (data.success === false) {
+                setLoading(false);
                 return setErrorMessage(data.message);
             }
             setLoading(false);
@@ -41,8 +42,8 @@ const SignIn = (props: Props) => {
                 navigate('/');
             }
         } catch (error) {
-            setErrorMessage((error as any).message);
             setLoading(false);
+            setErrorMessage((error as any).message);
         }
     };
 
@@ -90,14 +91,14 @@ const SignIn = (props: Props) => {
                                             Loading...
                                         </span>
                                     </>
-                                ) : 'Sign Up'
+                                ) : 'Sign In'
                             }
                         </Button>
                     </form>
                     <div className="flex gap-2 text-sm mt-5">
                         <span>Don't have an account?</span>
                         <Link to={'/sign-up'} className='text-blue-500'>
-                            Sign Up
+                            Sign up
                         </Link>
                     </div>
                     {
