@@ -25,6 +25,7 @@ const OAuth = (props: Props) => {
                     googlePhotoUrl: resultsFromGoogle.user.photoURL
                 })
             });
+            console.log(res);
             if (!res.ok) {
                 throw new Error(`Failed to fetch: ${res.statusText}`);
             }
