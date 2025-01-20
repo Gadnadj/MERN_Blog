@@ -1,13 +1,19 @@
-import { Button, Navbar, TextInput } from 'flowbite-react';
+import { Avatar, Button, Dropdown, DropdownDivider, Navbar, TextInput } from 'flowbite-react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FaMoon } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { User } from '../types';
+
 
 
 type Props = {}
 const Headers = (props: Props) => {
 
     const path = useLocation().pathname;
+    const currentUser = useSelector<RootState, User | null>(state => state.user.currentUser);
+    console.log(currentUser);
 
     return (
         <Navbar className='border-b-2'>
@@ -34,13 +40,44 @@ const Headers = (props: Props) => {
                     <FaMoon />
                 </Button>
 
-                <Link to={'/sign-in'}>
-                    <Button gradientDuoTone='purpleToBlue' outline >
-                        Sign In
-                    </Button>
-                </Link>
+                {currentUser ? (
+                    <Dropdown
+                        arrowIcon={false}
+                        inline
+                        label={
+                            <Avatar
+                                alt='user'
+                                img={currentUser.profilePicture}
+                                rounded
+                            />
+                        }
+                    >
+                        <Dropdown.Header>
+                            <span className='block text-sm'>@{currentUser.username}</span>
+                            {/* <span className='block text-sm font-medium truncate'>{currentUser.email}</span> */}
+                        </Dropdown.Header>
+
+                        <Link to={'/dashboard?tab=profile'}>
+                            <Dropdown.Item>
+                                Profile
+                            </Dropdown.Item>
+                        </Link>
+
+                        <Dropdown.Divider />
+
+                        <Dropdown.Item>
+                            Sign Out
+                        </Dropdown.Item>
+                    </Dropdown>
+                ) :
+                    (<Link to={'/sign-in'}>
+                        <Button gradientDuoTone='purpleToBlue' outline >
+                            Sign In
+                        </Button>
+                    </Link>)
+                }
                 <Navbar.Toggle />
-            </div>
+            </div >
 
             <Navbar.Collapse>
                 <Navbar.Link active={path === '/'} as={'div'}>
@@ -61,7 +98,7 @@ const Headers = (props: Props) => {
                     </Link>
                 </Navbar.Link>
             </Navbar.Collapse>
-        </Navbar>
+        </Navbar >
     );
 };
 
