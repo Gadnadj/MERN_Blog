@@ -5,9 +5,9 @@ import { Alert, Button, TextInput } from 'flowbite-react';
 import { useState } from 'react';
 import { updateFailure, updateStart, updateSuccess } from '../redux/user/userSlice';
 
-type Props = {}
 
-const DashProfile = (props: Props) => {
+
+const DashProfile = () => {
     const currentUser = useSelector<RootState, User | null>((state) => state.user.currentUser);
     const [formData, setFormData] = useState<FormData>({ username: '', email: '', password: '' });
     const [updateUserSuccess, setUpdateUserSuccess] = useState<string | null>(null);
